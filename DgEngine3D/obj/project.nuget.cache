@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "dgSpecHash": "LizdP2syD3henTw4WjIR0PTdaGrO3PTldNF7t6E2xWLteAiasolz02ZGDO7mgioxZGRoeWK86SdRfKOJK33BpQ==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\dawid\\Desktop\\3d engine - do pracy licencjackiej\\DgEngine3D\\DgEngine3D\\DgEngine3D.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\dawid\\.nuget\\packages\\microsoft.netcore.app.ref\\3.1.0\\microsoft.netcore.app.ref.3.1.0.nupkg.sha512",
+    "C:\\Users\\dawid\\.nuget\\packages\\microsoft.windowsdesktop.app.ref\\3.1.0\\microsoft.windowsdesktop.app.ref.3.1.0.nupkg.sha512"
+  ],
+  "logs": []
+}
