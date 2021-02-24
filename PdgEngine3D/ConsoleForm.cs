@@ -13,39 +13,31 @@ namespace PdgEngine3D
         public ConsoleForm()
         {
             InitializeComponent();
-            DoubleBuffered = true;
-            
+            DoubleBuffered = true;            
             ConsoleForm_Load(this, null);
         }
 
+        Engine engine;
 
-        Vector3D vec3d;
-        Thread thread;
-        Graphics g1;
-        Graphics g2;
-        Graphics g3;
-        Bitmap btm;
-        Engine eng = new Engine();
-
-        bool drawing = true;
-
-        int margin = 30;
-        int spread = 1000;
-        int initialRadius = 50;
-
+        //initialize
         private void ConsoleForm_Load(object sender, EventArgs e)
         {
-            PointF img = new PointF(0, 0);
-            Task.Run(() => eng.Start(this.pictureBox1));
+            engine = new Engine();
+            Task.Run(() => engine.Start(this.pictureBox1));
         }
 
+
+        //Event called on import file button
         private void ImportFile_Click(object sender, EventArgs e)
         {
             OpenFileDialog ofd = new OpenFileDialog();
 
             if (ofd.ShowDialog() == DialogResult.OK)
             {
-                eng.ChangeObject(ofd.FileName);
+                Task.Run(() =>
+                {
+                    engine.ChangeObject(ofd.FileName);
+                });
             }
         }
 

@@ -39,6 +39,7 @@ namespace PdgEngine3D
 
         public void StartDisplaying()
         {
+            disp = true;
             while (disp)
             {
                 Update(0.02f);
@@ -47,6 +48,8 @@ namespace PdgEngine3D
         }
         public void ChangeObject(string fileName)
         {
+            disp = false;
+            Thread.Sleep(500);
             UserCreate(fileName, null);
             StartDisplaying();
         }
@@ -118,14 +121,22 @@ namespace PdgEngine3D
             }
 
         }
+
+        /// <summary>
+        /// Event called to refresh console (each frame)
+        /// </summary>
+        /// <param name="sender"> -- rotation angle </param>
+        /// <param name="e"></param>
         public void OnUserUpdate(object sender, EventArgs e)
         {
             fTheta += (float)sender;
 
+            //Matrix to rotate around X axis
             Matrix4x4 matRotX = new Matrix4x4((float)Math.Cos(fTheta), (float)Math.Sin(fTheta), 0, 0,
                                                -(float)Math.Sin(fTheta), (float)Math.Cos(fTheta), 0, 0,
                                                0, 0, 1.0f, 0,
                                                0, 0, 0, 1.0f);
+            //Matrix to rotate around Z axis
             Matrix4x4 matRotZ = new Matrix4x4(1.0f, 0, 0, 0,
                                                0, (float)Math.Cos(fTheta * 0.5F), (float)Math.Sin(fTheta * 0.5F), 0,
                                                0, -(float)Math.Sin(fTheta * 0.5F), (float)Math.Cos(fTheta * 0.5F), 0,
