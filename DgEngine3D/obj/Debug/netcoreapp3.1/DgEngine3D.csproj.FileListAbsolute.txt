@@ -1,0 +1,13 @@
+C:\Users\dawid\Desktop\3d engine - do pracy licencjackiej\DgEngine3D\DgEngine3D\bin\Debug\netcoreapp3.1\DgEngine3D.exe
+C:\Users\dawid\Desktop\3d engine - do pracy licencjackiej\DgEngine3D\DgEngine3D\bin\Debug\netcoreapp3.1\DgEngine3D.deps.json
+C:\Users\dawid\Desktop\3d engine - do pracy licencjackiej\DgEngine3D\DgEngine3D\bin\Debug\netcoreapp3.1\DgEngine3D.runtimeconfig.json
+C:\Users\dawid\Desktop\3d engine - do pracy licencjackiej\DgEngine3D\DgEngine3D\bin\Debug\netcoreapp3.1\DgEngine3D.runtimeconfig.dev.json
+C:\Users\dawid\Desktop\3d engine - do pracy licencjackiej\DgEngine3D\DgEngine3D\bin\Debug\netcoreapp3.1\DgEngine3D.dll
+C:\Users\dawid\Desktop\3d engine - do pracy licencjackiej\DgEngine3D\DgEngine3D\bin\Debug\netcoreapp3.1\DgEngine3D.pdb
+C:\Users\dawid\Desktop\3d engine - do pracy licencjackiej\DgEngine3D\DgEngine3D\obj\Debug\netcoreapp3.1\DgEngine3D.csprojAssemblyReference.cache
+C:\Users\dawid\Desktop\3d engine - do pracy licencjackiej\DgEngine3D\DgEngine3D\obj\Debug\netcoreapp3.1\DgEngine3D.AssemblyInfoInputs.cache
+C:\Users\dawid\Desktop\3d engine - do pracy licencjackiej\DgEngine3D\DgEngine3D\obj\Debug\netcoreapp3.1\DgEngine3D.AssemblyInfo.cs
+C:\Users\dawid\Desktop\3d engine - do pracy licencjackiej\DgEngine3D\DgEngine3D\obj\Debug\netcoreapp3.1\DgEngine3D.csproj.CoreCompileInputs.cache
+C:\Users\dawid\Desktop\3d engine - do pracy licencjackiej\DgEngine3D\DgEngine3D\obj\Debug\netcoreapp3.1\DgEngine3D.dll
+C:\Users\dawid\Desktop\3d engine - do pracy licencjackiej\DgEngine3D\DgEngine3D\obj\Debug\netcoreapp3.1\DgEngine3D.pdb
+C:\Users\dawid\Desktop\3d engine - do pracy licencjackiej\DgEngine3D\DgEngine3D\obj\Debug\netcoreapp3.1\DgEngine3D.genruntimeconfig.cache
