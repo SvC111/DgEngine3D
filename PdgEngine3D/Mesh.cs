@@ -40,21 +40,19 @@ namespace PdgEngine3D
                             case 'f':
                                 var data1 = line.Split(' ');
                                 var index = tris.Length;
-
-                                Array.Resize(ref tris, index + 1);
-                                var tri = new Triangle()
-                                {
-                                    p = new Vector3D[]
+                                for(int i=0; i<(data1.Length-1); i++);{
+                                    Array.Resize(ref tris, index +(i+1));
+                                    var tri = new Triangle()
                                     {
-                                        vects[int.Parse(data1[1].Split('/')[0])],
-                                        vects[int.Parse(data1[2].Split('/')[0])],
-                                        vects[int.Parse(data1[3].Split('/')[0])]
-                                    }
-                                };
-
-
-
-                                tris[index] = tri;
+                                        p = new Vector3D[]
+                                        {
+                                            vects[int.Parse(data1[i+1].Split('/')[0])],
+                                            vects[int.Parse(data1[i+2].Split('/')[0])],
+                                            vects[int.Parse(data1[i+3].Split('/')[0])]
+                                        }
+                                    };
+                                    tris[index+i] = tri;
+                                }
                                 break;
 
                         }
