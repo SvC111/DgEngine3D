@@ -40,6 +40,7 @@ namespace PdgEngine3D
                             case 'f':
                                 var data1 = line.Split(' ');
                                 var index = tris.Length;
+
                                 Array.Resize(ref tris, index + 1);
                                 var tri = new Triangle()
                                 {
@@ -50,6 +51,9 @@ namespace PdgEngine3D
                                         vects[int.Parse(data1[3].Split('/')[0])]
                                     }
                                 };
+
+
+
                                 tris[index] = tri;
                                 break;
 
