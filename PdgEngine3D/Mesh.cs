@@ -40,7 +40,8 @@ namespace PdgEngine3D
                             case 'f':
                                 var data1 = line.Split(' ');
                                 var index = tris.Length;
-                                for(int i=0; i<(data1.Length-1); i++);{
+                                for(int i=0; i<(data1.Length-1); i++)
+                                {
                                     Array.Resize(ref tris, index +(i+1));
                                     var tri = new Triangle()
                                     {
