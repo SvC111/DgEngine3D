@@ -45,7 +45,7 @@ namespace PdgEngine3D
             while (disp)
             {
                 Update(0.02f);
-                Thread.Sleep(30);
+                Thread.Sleep(25);
             }
         }
         public void ChangeObject(string fileName)
@@ -186,9 +186,9 @@ namespace PdgEngine3D
 
                 // Offset into the screen
                 triaTranslated = triaRotatedZX;
-                triaTranslated.p[0].Z = triaRotatedZX.p[0].Z + 25f;
-                triaTranslated.p[1].Z = triaRotatedZX.p[1].Z + 25f;
-                triaTranslated.p[2].Z = triaRotatedZX.p[2].Z + 25f;
+                triaTranslated.p[0].Z = triaRotatedZX.p[0].Z + 15f;
+                triaTranslated.p[1].Z = triaRotatedZX.p[1].Z + 15f;
+                triaTranslated.p[2].Z = triaRotatedZX.p[2].Z + 15f;
                 triaProjected.p = new Vector3D[] { new Vector3D(), new Vector3D(), new Vector3D() };
 
 
@@ -246,13 +246,13 @@ namespace PdgEngine3D
             
                 using (Graphics g = Graphics.FromImage(btm))
                 {
-                    g.SmoothingMode = SmoothingMode.HighQuality;
-                    foreach (var triaProjected in drawList)
+                g.SmoothingMode = SmoothingMode.AntiAlias;
+                foreach (var triaProjected in drawList)
                     {
                         DrawTriangle(g, (int)triaProjected.p[0].X, (int)triaProjected.p[0].Y,
                             (int)triaProjected.p[1].X, (int)triaProjected.p[1].Y,
                             (int)triaProjected.p[2].X, (int)triaProjected.p[2].Y,
-                            triaProjected.color, Color.Black);
+                            triaProjected.color, triaProjected.color);
                     }
                 }
             box.Image = btm;
@@ -269,7 +269,7 @@ namespace PdgEngine3D
         }
         public void DrawTriangle(Graphics g, int x1, int y1, int x2, int y2, int x3, int y3, Color FillColor, Color EdgeColor)
         {
-            Pen pen1 = new Pen(EdgeColor, 4.0f);
+            Pen pen1 = new Pen(EdgeColor, 1.0f);
             g.DrawLine(pen1, x1, y1, x2, y2);
             g.DrawLine(pen1, x2, y2, x3, y3);
             g.DrawLine(pen1, x1, y1, x3, y3);
