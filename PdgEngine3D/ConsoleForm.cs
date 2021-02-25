@@ -28,6 +28,8 @@ namespace PdgEngine3D
 
 
         //Event called on import file button
+
+
         private void ImportFile_Click(object sender, EventArgs e)
         {
             OpenFileDialog ofd = new OpenFileDialog();
@@ -40,6 +42,5 @@ namespace PdgEngine3D
                 });
             }
         }
-
     }
 }

@@ -18,3 +18,23 @@ C:\Users\dawid\Desktop\3d engine - do pracy licencjackiej\DgEngine3D\PdgEngine3D
 C:\Users\dawid\Desktop\3d engine - do pracy licencjackiej\DgEngine3D\PdgEngine3D\obj\Release\PdgEngine3D.exe
 C:\Users\dawid\Desktop\3d engine - do pracy licencjackiej\DgEngine3D\PdgEngine3D\obj\Release\PdgEngine3D.pdb
 C:\Users\dawid\Desktop\3d engine - do pracy licencjackiej\DgEngine3D\PdgEngine3D\obj\Release\PdgEngine3D.csprojAssemblyReference.cache
+C:\Users\Ayanover\Desktop\yes\DgEngine3D\PdgEngine3D\bin\Release\PdgEngine3D.exe.config
+C:\Users\Ayanover\Desktop\yes\DgEngine3D\PdgEngine3D\bin\Release\PdgEngine3D.exe
+C:\Users\Ayanover\Desktop\yes\DgEngine3D\PdgEngine3D\bin\Release\PdgEngine3D.pdb
+C:\Users\Ayanover\Desktop\yes\DgEngine3D\PdgEngine3D\bin\Release\PresentationCore.dll
+C:\Users\Ayanover\Desktop\yes\DgEngine3D\PdgEngine3D\bin\Release\System.Numerics.Vectors.dll
+C:\Users\Ayanover\Desktop\yes\DgEngine3D\PdgEngine3D\bin\Release\System.Reactive.dll
+C:\Users\Ayanover\Desktop\yes\DgEngine3D\PdgEngine3D\bin\Release\System.Runtime.CompilerServices.Unsafe.dll
+C:\Users\Ayanover\Desktop\yes\DgEngine3D\PdgEngine3D\bin\Release\System.Threading.Tasks.Extensions.dll
+C:\Users\Ayanover\Desktop\yes\DgEngine3D\PdgEngine3D\bin\Release\System.Numerics.Vectors.xml
+C:\Users\Ayanover\Desktop\yes\DgEngine3D\PdgEngine3D\bin\Release\System.Reactive.xml
+C:\Users\Ayanover\Desktop\yes\DgEngine3D\PdgEngine3D\bin\Release\System.Runtime.CompilerServices.Unsafe.xml
+C:\Users\Ayanover\Desktop\yes\DgEngine3D\PdgEngine3D\bin\Release\System.Threading.Tasks.Extensions.xml
+C:\Users\Ayanover\Desktop\yes\DgEngine3D\PdgEngine3D\obj\Release\PdgEngine3D.csprojAssemblyReference.cache
+C:\Users\Ayanover\Desktop\yes\DgEngine3D\PdgEngine3D\obj\Release\PdgEngine3D.ConsoleForm.resources
+C:\Users\Ayanover\Desktop\yes\DgEngine3D\PdgEngine3D\obj\Release\PdgEngine3D.Properties.Resources.resources
+C:\Users\Ayanover\Desktop\yes\DgEngine3D\PdgEngine3D\obj\Release\PdgEngine3D.csproj.GenerateResource.cache
+C:\Users\Ayanover\Desktop\yes\DgEngine3D\PdgEngine3D\obj\Release\PdgEngine3D.csproj.CoreCompileInputs.cache
+C:\Users\Ayanover\Desktop\yes\DgEngine3D\PdgEngine3D\obj\Release\PdgEngine3D.csproj.CopyComplete
+C:\Users\Ayanover\Desktop\yes\DgEngine3D\PdgEngine3D\obj\Release\PdgEngine3D.exe
+C:\Users\Ayanover\Desktop\yes\DgEngine3D\PdgEngine3D\obj\Release\PdgEngine3D.pdb
