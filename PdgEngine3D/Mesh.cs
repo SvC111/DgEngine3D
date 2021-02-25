@@ -17,6 +17,7 @@ namespace PdgEngine3D
             try
             {
                 Array.Clear(tris, 0, tris.Length);
+                Array.Resize(ref tris, 0);
                 List<Vector3D> vects = new List<Vector3D>();
                 using (StreamReader sr = File.OpenText(validPath))
                 {
@@ -40,19 +41,21 @@ namespace PdgEngine3D
                             case 'f':
                                 var data1 = line.Split(' ');
                                 var index = tris.Length;
-                                for(int i=0; i<(data1.Length-3); i++)
+                                for (int i = 0; i < (data1.Length - 3); i++)
                                 {
-                                    Array.Resize(ref tris, index +(i+1));
+                                    Array.Resize(ref tris, index + (i + 1));
                                     var tri = new Triangle()
                                     {
                                         p = new Vector3D[]
                                         {
-                                            vects[int.Parse(data1[i+1].Split('/')[0])],
-                                            vects[int.Parse(data1[i+2].Split('/')[0])],
-                                            vects[int.Parse(data1[i+3].Split('/')[0])]
+                                            vects[int.Parse(data1[1].Split('/')[0])-1],
+                                            vects[int.Parse(data1[i+2].Split('/')[0])-1],
+                                            vects[int.Parse(data1[i+3].Split('/')[0])-1]
                                         }
                                     };
-                                    tris[index+i] = tri;
+                                    tris[index + i] = tri;
+
+
                                 }
                                 break;
 

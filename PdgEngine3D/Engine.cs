@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
+using System.Linq;
 using System.Numerics;
 using System.Reactive.Linq;
 using System.Threading;
@@ -13,12 +14,13 @@ namespace PdgEngine3D
     class Engine
     {
         private Mesh mesh;
-        private Vector3D vCamera = new Vector3D(0, 0, 0);
+        private Vector3D vCamera;
         private PictureBox box;
-        private float fTheta = 0.0f;
+        private float fTheta;
         private int BitMapSpread = 1000;
         private Matrix4x4 mat = new Matrix4x4();
         bool disp = true;
+        bool updating = false;
         public Engine()
         {
             UserCreate += OnUserCreate;
@@ -49,13 +51,16 @@ namespace PdgEngine3D
         public void ChangeObject(string fileName)
         {
             disp = false;
-            Thread.Sleep(500);
+            SpinWait.SpinUntil(() => !updating);
+            Thread.Sleep(100);
             UserCreate(fileName, null);
             StartDisplaying();
         }
         public void Update(float angle)
         {
+            updating = true;
             UserUpdate(angle, null);
+            updating = false;
         }
         public void OnUserCreate(object sender, EventArgs e)
         {
@@ -63,10 +68,16 @@ namespace PdgEngine3D
             {
                 try
                 {
+                    fTheta = 0.0f;
+                    vCamera = new Vector3D(0, 0, 0);
                     var filePath = (string)sender;
                     mesh.LoadFromObject(filePath);
+
                 }
-                catch (Exception) { }
+                catch (Exception) 
+                {
+                    throw;
+                }
             }
             else
             {
@@ -162,7 +173,7 @@ namespace PdgEngine3D
                     p = new Vector3D[] { new Vector3D(), new Vector3D(), new Vector3D() }
                 };
 
-                
+               
                 //Rotate in X-Axis
                 MultiplyMatrixVector(tria.p[0], ref triaRotatedX.p[0], matRotX);
                 MultiplyMatrixVector(tria.p[1], ref triaRotatedX.p[1], matRotX);
@@ -175,9 +186,9 @@ namespace PdgEngine3D
 
                 // Offset into the screen
                 triaTranslated = triaRotatedZX;
-                triaTranslated.p[0].Z = triaRotatedZX.p[0].Z + 2.5f;
-                triaTranslated.p[1].Z = triaRotatedZX.p[1].Z + 2.5f;
-                triaTranslated.p[2].Z = triaRotatedZX.p[2].Z + 2.5f;
+                triaTranslated.p[0].Z = triaRotatedZX.p[0].Z + 25f;
+                triaTranslated.p[1].Z = triaRotatedZX.p[1].Z + 25f;
+                triaTranslated.p[2].Z = triaRotatedZX.p[2].Z + 25f;
                 triaProjected.p = new Vector3D[] { new Vector3D(), new Vector3D(), new Vector3D() };
 
 
@@ -227,7 +238,7 @@ namespace PdgEngine3D
                     drawList.Add(triaProjected);
                 }
 
-
+                drawList = drawList.OrderByDescending(t => t.p.Sum(s => s.Z) / 3.0f).ToList();
             }
 
             //Draw triangles
@@ -253,6 +264,7 @@ namespace PdgEngine3D
             light_direction.Normalize();
             double dp = Vector3D.DotProduct(normal, light_direction);
             int pixel_lum = (int)(255.0f * dp);
+            pixel_lum = pixel_lum > 255 ? 255 : pixel_lum < 0 ? 0 : pixel_lum;
             tria.color = Color.FromArgb(pixel_lum, pixel_lum, pixel_lum);
         }
         public void DrawTriangle(Graphics g, int x1, int y1, int x2, int y2, int x3, int y3, Color FillColor, Color EdgeColor)
