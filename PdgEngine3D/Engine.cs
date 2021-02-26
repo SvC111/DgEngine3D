@@ -8,6 +8,7 @@ using System.Reactive.Linq;
 using System.Threading;
 using System.Windows.Forms;
 using System.Windows.Media.Media3D;
+using PdgEngine3D.Helpers;
 
 namespace PdgEngine3D
 {
@@ -74,7 +75,7 @@ namespace PdgEngine3D
                     mesh.LoadFromObject(filePath);
 
                 }
-                catch (Exception) 
+                catch (Exception)
                 {
                     throw;
                 }
@@ -143,15 +144,9 @@ namespace PdgEngine3D
             fTheta += (float)sender;
 
             //Matrix to rotate around X axis
-            Matrix4x4 matRotX = new Matrix4x4((float)Math.Cos(fTheta), (float)Math.Sin(fTheta), 0, 0,
-                                               -(float)Math.Sin(fTheta), (float)Math.Cos(fTheta), 0, 0,
-                                               0, 0, 1.0f, 0,
-                                               0, 0, 0, 1.0f);
+            Matrix4x4 matRotX = MatrixHelper.GetMatrixRotateX(fTheta);
             //Matrix to rotate around Z axis
-            Matrix4x4 matRotZ = new Matrix4x4(1.0f, 0, 0, 0,
-                                               0, (float)Math.Cos(fTheta * 0.5F), (float)Math.Sin(fTheta * 0.5F), 0,
-                                               0, -(float)Math.Sin(fTheta * 0.5F), (float)Math.Cos(fTheta * 0.5F), 0,
-                                               0, 0, 0, 1.0f);
+            Matrix4x4 matRotZ = MatrixHelper.GetMatrixRotateZ(fTheta);
 
 
 
@@ -173,16 +168,12 @@ namespace PdgEngine3D
                     p = new Vector3D[] { new Vector3D(), new Vector3D(), new Vector3D() }
                 };
 
-               
+
                 //Rotate in X-Axis
-                MultiplyMatrixVector(tria.p[0], ref triaRotatedX.p[0], matRotX);
-                MultiplyMatrixVector(tria.p[1], ref triaRotatedX.p[1], matRotX);
-                MultiplyMatrixVector(tria.p[2], ref triaRotatedX.p[2], matRotX);
+                RotateAroundXAxis(tria, ref triaRotatedX, fTheta);
 
                 //Rotate in Z-Axis
-                MultiplyMatrixVector(triaRotatedX.p[0], ref triaRotatedZX.p[0], matRotZ);
-                MultiplyMatrixVector(triaRotatedX.p[1], ref triaRotatedZX.p[1], matRotZ);
-                MultiplyMatrixVector(triaRotatedX.p[2], ref triaRotatedZX.p[2], matRotZ);
+                RotateAroundXAxis(triaRotatedX, ref triaRotatedZX, fTheta);
 
                 // Offset into the screen
                 triaTranslated = triaRotatedZX;
@@ -243,24 +234,46 @@ namespace PdgEngine3D
 
             //Draw triangles
             Bitmap btm = new Bitmap(BitMapSpread, BitMapSpread);
-            
-                using (Graphics g = Graphics.FromImage(btm))
-                {
+
+            using (Graphics g = Graphics.FromImage(btm))
+            {
                 g.SmoothingMode = SmoothingMode.AntiAlias;
                 foreach (var triaProjected in drawList)
-                    {
-                        DrawTriangle(g, (int)triaProjected.p[0].X, (int)triaProjected.p[0].Y,
-                            (int)triaProjected.p[1].X, (int)triaProjected.p[1].Y,
-                            (int)triaProjected.p[2].X, (int)triaProjected.p[2].Y,
-                            triaProjected.color, triaProjected.color);
-                    }
+                {
+                    DrawTriangle(g, (int)triaProjected.p[0].X, (int)triaProjected.p[0].Y,
+                        (int)triaProjected.p[1].X, (int)triaProjected.p[1].Y,
+                        (int)triaProjected.p[2].X, (int)triaProjected.p[2].Y,
+                        triaProjected.color, triaProjected.color);
                 }
+            }
             box.Image = btm;
 
         }
+
+        private void RotateAroundXAxis(Triangle input, ref Triangle output, float angle)
+        {
+            var matRotX = MatrixHelper.GetMatrixRotateX(angle);
+            MultiplyMatrixVector(input.p[0], ref output.p[0], matRotX);
+            MultiplyMatrixVector(input.p[1], ref output.p[1], matRotX);
+            MultiplyMatrixVector(input.p[2], ref output.p[2], matRotX);
+        }
+        private void RotateAroundYAxis(Triangle input, ref Triangle output, float angle)
+        {
+            var matRotX = MatrixHelper.GetMatrixRotateY(angle);
+            MultiplyMatrixVector(input.p[0], ref output.p[0], matRotX);
+            MultiplyMatrixVector(input.p[1], ref output.p[1], matRotX);
+            MultiplyMatrixVector(input.p[2], ref output.p[2], matRotX);
+        }
+        private void RotateAroundZAxis(Triangle input, ref Triangle output, float angle)
+        {
+            var matRotX = MatrixHelper.GetMatrixRotateZ(angle);
+            MultiplyMatrixVector(input.p[0], ref output.p[0], matRotX);
+            MultiplyMatrixVector(input.p[1], ref output.p[1], matRotX);
+            MultiplyMatrixVector(input.p[2], ref output.p[2], matRotX);
+        }
         public void ChooseColor(ref Triangle tria, Vector3D normal)
         {
-            Vector3D light_direction = new Vector3D{ X = 0.0f, Y = 0.0f, Z = -1.0f };
+            Vector3D light_direction = new Vector3D { X = 0.0f, Y = 0.0f, Z = -1.0f };
             light_direction.Normalize();
             double dp = Vector3D.DotProduct(normal, light_direction);
             int pixel_lum = (int)(255.0f * dp);

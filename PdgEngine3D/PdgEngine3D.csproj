@@ -71,6 +71,7 @@
       <DependentUpon>ConsoleForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Engine.cs" />
+    <Compile Include="Helpers\MatrixHelper.cs" />
     <Compile Include="Mesh.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
