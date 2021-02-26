@@ -301,7 +301,7 @@ namespace PdgEngine3D
             g.FillPolygon(pen2.Brush, new Point[] { new Point() { X = x1, Y = y1 }, new Point() { X = x2, Y = y2 }, new Point() { X = x3, Y = y3 } });
         }
 
-        internal void UpdateUser(float elapsedTime) => UserUpdate?.Invoke(elapsedTime, null);
+        internal void UpdateUser(float rotationAngle) => UserUpdate?.Invoke(rotationAngle, null);
 
         internal void CreateUser() => UserUpdate?.Invoke(null, null);
     }
