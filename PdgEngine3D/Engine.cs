@@ -19,7 +19,6 @@ namespace PdgEngine3D
         private PictureBox box;
         private float fTheta;
         private int BitMapSpread = 1000;
-        private Matrix4x4 mat = new Matrix4x4();
         bool disp = true;
         bool updating = false;
         public Engine()
@@ -104,17 +103,6 @@ namespace PdgEngine3D
                 };
             }
 
-            float fNear = 0.1f;
-            float fFar = 1000.0f;
-            float fFov = 90.0f;
-            float fAspectRatio = 1.0f;
-            float fFovRad = 1.0f / (float)Math.Tan(fFov * 0.5f / 180.0f * Math.PI);
-
-            mat = new Matrix4x4(fAspectRatio * fFovRad, 0, 0, 0,
-                                0, fFovRad, 0, 0,
-                                0, 0, fFar / (fFar - fNear), 1.0f,
-                                0, 0, (-fFar * fNear) / (fFar - fNear), 0.0f);
-
 
         }
 
@@ -143,13 +131,6 @@ namespace PdgEngine3D
         {
             fTheta += (float)sender;
 
-            //Matrix to rotate around X axis
-            Matrix4x4 matRotX = MatrixHelper.GetMatrixRotateX(fTheta);
-            //Matrix to rotate around Z axis
-            Matrix4x4 matRotZ = MatrixHelper.GetMatrixRotateZ(fTheta);
-
-
-
             //Calculate triangles
             List<Triangle> drawList = new List<Triangle>();
             foreach (var tria in mesh.tris)
@@ -173,33 +154,13 @@ namespace PdgEngine3D
                 RotateAroundXAxis(tria, ref triaRotatedX, fTheta);
 
                 //Rotate in Z-Axis
-                RotateAroundXAxis(triaRotatedX, ref triaRotatedZX, fTheta);
+                RotateAroundZAxis(triaRotatedX, ref triaRotatedZX, fTheta);
 
                 // Offset into the screen
-                triaTranslated = triaRotatedZX;
-                triaTranslated.p[0].Z = triaRotatedZX.p[0].Z + 15f;
-                triaTranslated.p[1].Z = triaRotatedZX.p[1].Z + 15f;
-                triaTranslated.p[2].Z = triaRotatedZX.p[2].Z + 15f;
-                triaProjected.p = new Vector3D[] { new Vector3D(), new Vector3D(), new Vector3D() };
-
-
+                ZoomInOutTriangle(triaRotatedZX, ref triaTranslated, 15f);
 
                 //Cross product
-                Vector3D normal = new Vector3D();
-                Vector3D line2 = new Vector3D();
-                Vector3D line1 = new Vector3D();
-
-                line1.X = triaTranslated.p[1].X - triaTranslated.p[0].X;
-                line1.Y = triaTranslated.p[1].Y - triaTranslated.p[0].Y;
-                line1.Z = triaTranslated.p[1].Z - triaTranslated.p[0].Z;
-
-                line2.X = triaTranslated.p[2].X - triaTranslated.p[0].X;
-                line2.Y = triaTranslated.p[2].Y - triaTranslated.p[0].Y;
-                line2.Z = triaTranslated.p[2].Z - triaTranslated.p[0].Z;
-
-                normal = Vector3D.CrossProduct(line1, line2);
-
-                // It's normallY normal to normalise the normal
+                Vector3D normal = GetCrossProductOfTriangle(triaTranslated);
                 normal.Normalize();
 
                 //if (normal.Z < 0)
@@ -208,30 +169,30 @@ namespace PdgEngine3D
                    normal.Z * (triaTranslated.p[0].Z - vCamera.Z) < 0.0f)
                 {
                     //Project triangle 3D -> 2D
-                    MultiplyMatrixVector(triaTranslated.p[0], ref triaProjected.p[0], mat);
-                    MultiplyMatrixVector(triaTranslated.p[1], ref triaProjected.p[1], mat);
-                    MultiplyMatrixVector(triaTranslated.p[2], ref triaProjected.p[2], mat);
+                    ProjectTriangle(triaTranslated, ref triaProjected);
 
-                    triaProjected.p[0].X += 1.0f;
-                    triaProjected.p[1].X += 1.0f;
-                    triaProjected.p[2].X += 1.0f;
-                    triaProjected.p[0].Y += 1.0f;
-                    triaProjected.p[1].Y += 1.0f;
-                    triaProjected.p[2].Y += 1.0f;
+                    OffsetTriangle(ref triaProjected);
 
-                    triaProjected.p[0].X *= BitMapSpread / 2;
-                    triaProjected.p[1].X *= BitMapSpread / 2;
-                    triaProjected.p[2].X *= BitMapSpread / 2;
-                    triaProjected.p[0].Y *= BitMapSpread / 2;
-                    triaProjected.p[1].Y *= BitMapSpread / 2;
-                    triaProjected.p[2].Y *= BitMapSpread / 2;
+                    ScaleTriangleToBitmap(ref triaProjected);
+
                     ChooseColor(ref triaProjected, normal);
+
                     drawList.Add(triaProjected);
                 }
-
-                drawList = drawList.OrderByDescending(t => t.p.Sum(s => s.Z) / 3.0f).ToList();
             }
 
+            SetDrawingOrder(ref drawList);
+
+            DrawObjectOnScreen(drawList);
+        }
+
+
+        private void SetDrawingOrder(ref List<Triangle> drawList)
+        {
+            drawList = drawList.OrderByDescending(t => t.p.Sum(s => s.Z) / 3.0f).ToList();
+        }
+        private void DrawObjectOnScreen(List<Triangle> drawList)
+        { 
             //Draw triangles
             Bitmap btm = new Bitmap(BitMapSpread, BitMapSpread);
 
@@ -247,9 +208,14 @@ namespace PdgEngine3D
                 }
             }
             box.Image = btm;
-
         }
-
+        private void ZoomInOutTriangle(Triangle input, ref Triangle output, float scale)
+        {
+            output = input;
+            output.p[0].Z = input.p[0].Z + scale;
+            output.p[1].Z = input.p[1].Z + scale;
+            output.p[2].Z = input.p[2].Z + scale;
+        }
         private void RotateAroundXAxis(Triangle input, ref Triangle output, float angle)
         {
             var matRotX = MatrixHelper.GetMatrixRotateX(angle);
@@ -279,6 +245,50 @@ namespace PdgEngine3D
             int pixel_lum = (int)(255.0f * dp);
             pixel_lum = pixel_lum > 255 ? 255 : pixel_lum < 0 ? 0 : pixel_lum;
             tria.color = Color.FromArgb(pixel_lum, pixel_lum, pixel_lum);
+        }
+
+        private void ProjectTriangle(Triangle input, ref Triangle output)
+        {
+            var mat = MatrixHelper.GetProjectionMatrix();
+            MultiplyMatrixVector(input.p[0], ref output.p[0], mat);
+            MultiplyMatrixVector(input.p[1], ref output.p[1], mat);
+            MultiplyMatrixVector(input.p[2], ref output.p[2], mat);
+        }
+
+        private void OffsetTriangle(ref Triangle tria)
+        {
+            tria.p[0].X += 1.0f;
+            tria.p[1].X += 1.0f;
+            tria.p[2].X += 1.0f;
+            tria.p[0].Y += 1.0f;
+            tria.p[1].Y += 1.0f;
+            tria.p[2].Y += 1.0f;
+        }
+
+        private void ScaleTriangleToBitmap(ref Triangle tria)
+        {
+            tria.p[0].X *= BitMapSpread / 2;
+            tria.p[1].X *= BitMapSpread / 2;
+            tria.p[2].X *= BitMapSpread / 2;
+            tria.p[0].Y *= BitMapSpread / 2;
+            tria.p[1].Y *= BitMapSpread / 2;
+            tria.p[2].Y *= BitMapSpread / 2;
+        }
+        private Vector3D GetCrossProductOfTriangle(Triangle tria)
+        {
+            Vector3D line2 = new Vector3D();
+            Vector3D line1 = new Vector3D();
+
+            line1.X = tria.p[1].X - tria.p[0].X;
+            line1.Y = tria.p[1].Y - tria.p[0].Y;
+            line1.Z = tria.p[1].Z - tria.p[0].Z;
+
+            line2.X = tria.p[2].X - tria.p[0].X;
+            line2.Y = tria.p[2].Y - tria.p[0].Y;
+            line2.Z = tria.p[2].Z - tria.p[0].Z;
+
+            return Vector3D.CrossProduct(line1, line2);
+
         }
         public void DrawTriangle(Graphics g, int x1, int y1, int x2, int y2, int x3, int y3, Color FillColor, Color EdgeColor)
         {
